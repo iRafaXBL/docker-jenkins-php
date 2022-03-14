@@ -21,8 +21,8 @@ services:
       MYSQL_PORT: 3306
     volumes:
       - ./.db_data:/var/lib/mysql
-      - ./mysql/:/docker-entrypoint-initdb.d
-      - ./mysql/:/dump
+      - ./database/:/docker-entrypoint-initdb.d
+      - ./database/:/database
     ports:
       - 3306:3306
 
