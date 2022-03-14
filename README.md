@@ -1,4 +1,4 @@
-# docker-php
+# docker-jenkins-php
 
 Hecho por Rafael Rodríguez Gallego.  
 Práctica Final IAW.  
