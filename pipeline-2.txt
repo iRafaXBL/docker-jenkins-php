@@ -1,0 +1,32 @@
+pipeline {
+            agent {label 'vps'}
+                stages {
+                        stage('Descargar ficheros configuración') {
+                            steps {
+                                echo 'Descargando...'
+                                sh 'rm -R .* || true'
+                                sh 'rm -R * || true'
+                                sh 'git clone https://github.com/habananax/docker-php.git .'
+                            }
+                        }
+                        stage('Deploy Docker Compose') {
+                            steps {
+                                echo 'Desplegando Compose...'
+                                sh 'docker-compose up -d'
+                            }
+                        }
+                        stage('Add PHP Files') {
+                            steps {
+                                echo 'Añadiendo los ficheros PHP...'
+                                sh 'docker-compose exec -T webserver sh -c "cp /var/www/phpfiles/* /var/www/html/"'
+                            }
+                        }
+                        stage('Add DB Tables') {
+                            steps {
+                                echo 'Añadiendo las tablas de la Base de Datos...'
+                                sh 'set +e'
+                                sh 'docker-compose exec -T webserver sh -c "mysql -u root -psecret iaw_db < /dump/init.sql"'
+                            }
+                        }
+                }
+        }
